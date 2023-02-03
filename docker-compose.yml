@@ -1,5 +1,20 @@
-version: '3.1'  # Secrets are only available since this version of Docker Compose
+version: '3.1'  
 services:
+  dicom:
+    build: dicom/
+    env_file:
+      - ./dicom/config/.env
+    command: python start.py
+    expose:
+      - '5000'
+    ports:
+      - 5000:5000
+    networks:
+      - dicomnet
+    volumes:
+      - ./logs/dicom:/app/logs
+    depends_on:
+      - orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.11.0
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
@@ -13,3 +28,7 @@ services:
 secrets:
   orthanc.json:
     file: orthanc.json
+
+networks:
+  dicomnet:
+    driver: bridge
