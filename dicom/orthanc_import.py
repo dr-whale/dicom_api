@@ -4,7 +4,7 @@ from lib import Log
 from config import config
 
 def orthanc_import():
-   orthanc = Orthanc(f'{config.ORTHANC_HOST}:{config.ORTHANC_PORT}', config.ORTHANC_USER, config.ORTHANC_PASS)
+   orthanc = Orthanc(f'http://{config.ORTHANC_HOST}:{config.ORTHANC_PORT}', config.ORTHANC_USER, config.ORTHANC_PASS)
    for filename in os.listdir('tmp'):
       with open(f'tmp/{filename}', 'rb') as file:
          try:

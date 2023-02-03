@@ -23,6 +23,9 @@ services:
       - 8042:8042
     secrets:
       - orthanc.json
+    networks:
+      - dicomnet
+    hostname: orthanchost
     environment:
       - ORTHANC_NAME=HelloWorld
 secrets:
