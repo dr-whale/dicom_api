@@ -1,4 +1,4 @@
 {
-    "Name" : "${ORTHANC_NAME} in Docker Compose",
+    "Name" : "${ORTHANC_NAME}",
     "RemoteAccessAllowed" : true
 }

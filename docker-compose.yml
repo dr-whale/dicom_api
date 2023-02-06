@@ -27,7 +27,15 @@ services:
       - dicomnet
     hostname: orthanchost
     environment:
-      - ORTHANC_NAME=HelloWorld
+      - ORTHANC_NAME=Dicomnet
+  localrabbit:
+    image: rabbitmq:management
+    hostname: rabbithost
+    networks:
+      - dicomnet
+    ports:
+      - 15672:15672
+
 secrets:
   orthanc.json:
     file: orthanc.json
