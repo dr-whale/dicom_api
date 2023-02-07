@@ -1,22 +1,40 @@
-import pika
+import pika, json
 from .class_description import Singleton
 from config import config
-from flask import jsonify
+from lib import Log
 
 class Rabbit (metaclass=Singleton):
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(config.RABBIT_HOST))
-        self.channel = self.connection.channel()
+        self.connection:pika.BlockingConnection = None
+        pass
+
+    def check_connection(self):
+        if self.connection == None:
+            return False
+        try:
+            self.connection.process_data_events()
+        except:
+            return False
+        return True
+
+    def connect(self):
+        try:
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters(config.RABBIT_HOST))
+            self.channel = self.connection.channel()
+            Log().info("Connection to RabbitMQ successfully")
+        except:
+            Log().error("Connection to RabbitMQ error", exc_info=True)
 
     def publish(self, sop_class, study_id):
-        self.channel.queue_declare(queue = f"{config.queue_uid[sop_class]}", durable = True)
-        self.channel.basic_publish(exchange = '', routing_key = f"{config.queue_uid[sop_class]}", body = jsonify(study_id))
+        if not self.check_connection():
+            self.connect()
+        try:
+            self.channel.queue_declare(queue = f"{config.queue_uid[sop_class]}", durable = True)
+            self.channel.basic_publish(exchange = '', routing_key = f"{config.queue_uid[sop_class]}", body = json.dumps(study_id))
+            Log().info(f"{study_id} publish to queue")
+        except:
+            Log().error("Publish to queue error", exc_info=True)
     
     def close_connection(self):
         self.connection.close()
-
-    def __getattr__(self, name):
-        if hasattr(self.logger, name):
-            return getattr(self.logger, name)
-        else:
-            return getattr(self, name)
+        Log().info("Close connection to RabbitMQ")
