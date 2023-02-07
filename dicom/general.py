@@ -33,7 +33,7 @@ def upload():
             else:
                 Log().warning(f"Wrong SOPClassUID {filename}")
         except:
-            Log().error("File is not dicom",exc_info=True)
+            Log().error("File is not dicom", exc_info=True)
             resp = jsonify({'message' : 'File is no dicom'})
             resp.status_code = 400
     Rabbit().close_connection()
