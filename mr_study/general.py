@@ -1,10 +1,15 @@
 from lib import Log
 from config import config
 import pika, json
+from orthanc_export import orthanc_export
+from mysql_module import insert_row
 
 def callback(ch, method, properties, body):
-    print('Callback')
-    Log().info(json.loads(body))
+    try:
+        insert_row(orthanc_export(json.loads(body)))
+        Log().info("Data send from rabbitmq to orthanc export")
+    except:
+        Log().error("Orthanc export error")
 
 try:
     connection = pika.BlockingConnection(pika.ConnectionParameters(config.RABBIT_HOST))

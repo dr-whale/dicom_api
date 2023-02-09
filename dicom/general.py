@@ -29,7 +29,7 @@ def upload():
                 Log().info(f"Dicom file {filename} saved in temp")
                 resp = jsonify({'message' : 'File successfully uploaded'})
                 resp.status_code = 201
-                orthanc_import(filename, sop_class, dicom_info.StudyID)
+                orthanc_import(filename, sop_class)
             else:
                 Log().warning(f"Wrong SOPClassUID {filename}")
         except:

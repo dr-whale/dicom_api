@@ -25,13 +25,13 @@ class Rabbit (metaclass=Singleton):
         except:
             Log().error("Connection to RabbitMQ error", exc_info=True)
 
-    def publish(self, sop_class, study_id):
+    def publish(self, sop_class, orthanc_instance_id):
         if not self.check_connection():
             self.connect()
         try:
             self.channel.queue_declare(queue = f"{config.queue_uid[sop_class]}", durable = True)
-            self.channel.basic_publish(exchange = '', routing_key = f"{config.queue_uid[sop_class]}", body = json.dumps(study_id))
-            Log().info(f"{study_id} publish to queue")
+            self.channel.basic_publish(exchange = '', routing_key = f"{config.queue_uid[sop_class]}", body = json.dumps(orthanc_instance_id))
+            Log().info(f"{orthanc_instance_id} publish to queue")
         except:
             Log().error("Publish to queue error", exc_info=True)
     
