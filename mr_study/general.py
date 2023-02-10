@@ -7,9 +7,9 @@ from mysql_module import insert_row
 def callback(ch, method, properties, body):
     try:
         insert_row(orthanc_export(json.loads(body)))
-        Log().info("Data send from rabbitmq to orthanc export")
+        Log().info("Orthanc export success")
     except:
-        Log().error("Orthanc export error")
+        Log().error("Orthanc export error", exc_info=True)
 
 try:
     connection = pika.BlockingConnection(pika.ConnectionParameters(config.RABBIT_HOST))
