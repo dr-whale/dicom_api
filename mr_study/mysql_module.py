@@ -36,14 +36,10 @@ Session = sessionmaker(bind = engine)
 session = Session()
 
 def id_checker(orthanc_id):
-    responce = True
-    query = session.query(MRInfo).all()
-    for instance in query:
-        if (instance.id == orthanc_id):
-            Log().info("Equal ID")
-            responce = False
-            return responce
-    return responce
+    if (session.query(session.query(MRInfo).filter_by(id=orthanc_id).exists()).scalar()):
+        Log().info("Equal ID")
+        return False
+    return True
 
 def insert_row(info):
     try:
