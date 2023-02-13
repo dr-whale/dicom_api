@@ -8,10 +8,10 @@ LOGGER_FILE_PATH = os.environ.get("LOGGER_FILE_PATH") or "default_log.log"
 
 RABBIT_HOST = os.environ.get("RABBIT_HOST") or "localhost"
 
-ORTHANC_HOST=os.environ.get("ORTHANC_HOST") or "localhost"
-ORTHANC_PORT=os.environ.get("ORTHANC_PORT") or "8042"
-ORTHANC_USER=os.environ.get("ORTHANC_USER") or "orthanc"
-ORTHANC_PASS=os.environ.get("ORTHANC_PASS") or "orthanc"
+ORTHANC_HOST = os.environ.get("ORTHANC_HOST") or "localhost"
+ORTHANC_PORT = os.environ.get("ORTHANC_PORT") or "8042"
+ORTHANC_USER = os.environ.get("ORTHANC_USER") or "orthanc"
+ORTHANC_PASS = os.environ.get("ORTHANC_PASS") or "orthanc"
 
 class_uid = {StudiUID.CT: [
                         '1.2.840.10008.5.1.4.1.1.2',
