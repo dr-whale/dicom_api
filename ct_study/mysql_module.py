@@ -6,9 +6,9 @@ import sqlalchemy as db
 class Base(DeclarativeBase):
     pass
 
-class MRInfo(Base):
+class CTInfo(Base):
     __tablename__ = config.DB_TABLE
-
+    
     id = db.Column("ID", db.String, primary_key = True)
     instance_uid = db.Column("InstanceUID", db.String)
     series_uid = db.Column("SeriesUID", db.String)
@@ -36,7 +36,7 @@ Session = sessionmaker(bind = engine)
 session = Session()
 
 def id_checker(orthanc_id):
-    if (session.query(session.query(MRInfo).filter_by(id=orthanc_id).exists()).scalar()):
+    if (session.query(session.query(CTInfo).filter_by(id=orthanc_id).exists()).scalar()):
         Log().info("Equal ID")
         return False
     return True
@@ -44,7 +44,7 @@ def id_checker(orthanc_id):
 def insert_row(info):
     try:
         if id_checker(info['orthanc_id']):
-            mrinfo = MRInfo(info['orthanc_id'], info['instance_uid'], info['series_uid'], 
+            mrinfo = CTInfo(info['orthanc_id'], info['instance_uid'], info['series_uid'], 
                             info['study_uid'],info['patient'], info['rows'], info['columns'])
             session.add(mrinfo)
             session.commit()

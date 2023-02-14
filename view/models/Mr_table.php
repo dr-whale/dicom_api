@@ -4,6 +4,6 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class Dicom extends ActiveRecord
+class Mr_table extends ActiveRecord
 {
 }

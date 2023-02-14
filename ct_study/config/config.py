@@ -17,4 +17,4 @@ MYSQL_USER = os.environ.get("MYSQL_USER") or "root"
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD") or "root"
 MYSQL_DB = os.environ.get("MYSQL_DB") or "mysql"
 
-DB_TABLE = os.environ.get("DB_TABLE") or "mysql"
+DB_TABLE="ct_table"

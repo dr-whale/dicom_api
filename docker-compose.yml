@@ -30,6 +30,37 @@ services:
       - orthanc
       - localrabbit
       - localdb
+  ctstudy:
+    build: ct_study/
+    restart: unless-stopped
+    env_file:
+      - ./ct_study/config/.env
+    command: python general.py
+    networks:
+      - dicomnet
+    volumes:
+      - ./logs/ct_study:/app/logs
+    depends_on:
+      - orthanc
+      - localrabbit
+      - localdb
+  view:
+    build:
+      context: ./view
+      dockerfile: Dockerfile
+      args:
+        DOMAIN_NAME: ${DOMAIN_NAME}
+    env_file:
+      - ./view/etcconf/.env
+    command: /usr/bin/supervisord
+    networks:
+      - dicomnet
+    volumes:
+      - ./logs/view:/app/runtime/logs
+    ports:
+      - 8080:80
+    depends_on:
+      - localdb
   orthanc:
     image: jodogne/orthanc-plugins:1.11.0
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
