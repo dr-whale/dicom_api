@@ -28,8 +28,8 @@ for study in studies:
         os.remove('tmp.dcm') """
 
 #resp_data = json.dumps(dict(Level = 'Study', Query = dict(StudyInstanceUID = uid)))
-responce = orthanc.post_tools_find(json.dumps(dict(Level = 'Study', Query = dict(StudyInstanceUID = uid))))
-print(type(responce))
+responce = orthanc.post_tools_find(dict(Expand = True, Level = 'Study', Query = dict(StudyInstanceUID = uid)))
+print(responce)
 
 """   {
     "Level": "Studies",
