@@ -2,7 +2,7 @@ import os
 from pydicom import dcmread
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
-from lib import Log, uid_checker, Rabbit
+from lib import Log, uid_checker, Rabbit, LocalAE
 from orthanc_import import orthanc_import
 from config import config
 
@@ -38,3 +38,13 @@ def upload():
             resp.status_code = 400
     Rabbit().close_connection()
     return resp
+
+@app.route('/move', methods=['GET'])
+def get_move():
+    patient_id = request.args.get('patient')
+    try:
+        LocalAE().move(patient_id)
+        Log().info("C-Move success")
+    except:
+        Log().error("C-Move PACS Error", exc_info=True)
+    return jsonify("C-Move success")

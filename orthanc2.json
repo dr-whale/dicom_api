@@ -1,0 +1,8 @@
+{
+    "Name" : "Second Orthanc",
+    "DicomAet": "OrthancSecond",
+    "RemoteAccessAllowed" : true,
+    "DicomModalities" : {
+        "OrthancGeneral" : [ "OrthancGeneral", "orthanchost", 4242 ]
+    }
+}

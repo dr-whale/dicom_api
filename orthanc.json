@@ -1,4 +1,9 @@
 {
-    "Name" : "${ORTHANC_NAME}",
-    "RemoteAccessAllowed" : true
+    "Name" : "General Orthanc",
+    "DicomAet" : "OrthancGeneral",
+    "RemoteAccessAllowed" : true,
+    "DicomModalities" : {
+        "OrthancSecond" : [ "OrthancSecond", "orthanc2host", 4242 ],
+        "LocalSCU" : [ "LocalSCU", "starthost", 4242 ]
+      }
 }
