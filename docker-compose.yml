@@ -15,6 +15,7 @@ services:
       - dicomnet
     volumes:
       - ./logs/dicom:/app/logs
+      - ./png:/app/png
     depends_on:
       - orthanc
       - localrabbit

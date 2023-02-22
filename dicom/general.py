@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from lib import Log, uid_checker, Rabbit, LocalAE
 from orthanc_import import orthanc_import
 from config import config
+from image import image_create
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'tmp'
@@ -48,3 +49,13 @@ def get_move():
     except:
         Log().error("C-Move PACS Error", exc_info=True)
     return jsonify("C-Move success")
+
+@app.route('/image', methods=['GET'])
+def get_image():
+    study_uid = request.args.get('study')
+    try:
+        image_create(study_uid)
+        Log().info("Image Create")
+    except:
+        Log().error("Image Error", exc_info=True)
+    return jsonify("Image create success")
